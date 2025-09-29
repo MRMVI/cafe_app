@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreItemRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
@@ -19,9 +20,22 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        // handle file upload
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('items', 'public');
+            $validated['photo_path'] = $path;
+        }
+
+        $item = Item::create($validated);
+
+        return response()->json([
+            'message' => 'Item created successfully',
+            'item' => $item
+        ], 201);
     }
 
     /**

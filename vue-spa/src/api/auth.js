@@ -1,14 +1,4 @@
-import axios from "axios";
-
-// Axios instance
-const api = axios.create({
-  baseURL: "http://localhost:8000/api", // Your Laravel API URL
-  headers: {
-    // prettier-ignore
-    "Accept": "application/json",
-    "Content-Type": "application/json",
-  },
-});
+import api from "./axios";
 
 // Reusable handle request
 async function handleRequest(method, url, data = null) {
@@ -29,7 +19,18 @@ export function register(payload) {
 
 export async function login(payload) {
   // payload = {email, password}
-  return handleRequest("post", "/login", payload);
+  const response = handleRequest("post", "/login", payload);
+
+  const { user, token } = (await response).data;
+
+  // save user info and token in local storage
+  localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("token", token);
+
+  // set token for future axios requests
+  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  return response;
 }
 
 export async function logout() {

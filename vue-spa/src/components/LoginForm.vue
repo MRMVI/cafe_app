@@ -2,7 +2,7 @@
   <section class="login">
     <h2>Login</h2>
 
-    <Form @submit="onSubmit" :validation-schema="schema">
+    <Form @submit="handleLogin" :validation-schema="schema">
       <!-- Email -->
       <div>
         <label>
@@ -41,6 +41,9 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { login } from "@/api/auth";
 import { useAuthForm } from "@/composables/useAuthForm";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const schema = yup.object({
   email: yup
@@ -54,4 +57,20 @@ const schema = yup.object({
 });
 
 const { success, loading, error, onSubmit } = useAuthForm(login);
+
+async function handleLogin(values) {
+  try {
+    const { user } = await onSubmit(values);
+
+    // Redirect based on role
+    if (user.role === "admin") {
+      router.push("/dashboard");
+    } else if (user.role === "user") {
+    } else {
+      router.push("/");
+    }
+  } catch (err) {
+    error.value = err.message || "Login failed";
+  }
+}
 </script>

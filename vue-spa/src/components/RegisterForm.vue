@@ -64,7 +64,7 @@
 
     <!-- Feedback -->
     <div v-if="success">
-      <p>✅ Login successful</p>
+      <p>✅ User registered successfully</p>
     </div>
     <div v-if="error">
       <p style="color: red">❌ {{ error }}</p>

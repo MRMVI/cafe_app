@@ -3,21 +3,36 @@ import { ref } from "vue";
 export function useAuthForm(apiFn) {
   const success = ref(false);
   const loading = ref(false);
-  const error = ref(null);
+  const errors = ref([]);
 
   const onSubmit = async (values) => {
     try {
+      success.value = false;
       loading.value = true;
-      error.value = null;
+      errors.value = [];
 
       const response = await apiFn(values);
-
       success.value = true;
 
       return response.data;
     } catch (err) {
-      error.value = err.response?.data?.message || "Something went wrong!";
-      console.error(err);
+      console.error("Error: ", err);
+      if (err.response) {
+        const data = err.response.data;
+
+        // Laravel validation errors
+        if (data.errors) {
+          errors.value = Object.values(data.errors).flat();
+        }
+        // Other error messages
+        else if (data.message) {
+          errors.value.push(data.message);
+        }
+      } else {
+        errors.value.push("Network error or server not responding.");
+      }
+
+      return;
     } finally {
       loading.value = false;
     }
@@ -26,7 +41,7 @@ export function useAuthForm(apiFn) {
   return {
     success,
     loading,
-    error,
+    errors,
     onSubmit,
   };
 }

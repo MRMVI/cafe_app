@@ -1,0 +1,138 @@
+@use "variables" as *;
+
+@mixin mainContainer() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: $color-background; // use your variable for bg
+  color: $color-primary;
+
+  min-height: 100vh;
+
+
+  @media (max-width: 600px) {
+    // Responsive background image
+    background-image: url("@/assets/cafe-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+}
+
+@mixin button-style($bg-color, $color) {
+  color: $color;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: bold;
+
+  /* Responsive font size */
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+
+  padding: clamp(8px, 2vw, 12px) clamp(15px, 3vw, 25px);
+  border: none;
+  border-radius: clamp(4px, 1vw, 6px);
+  cursor: pointer;
+
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  background-color: $bg-color;
+  box-shadow: 0 5px 5px $color-primary;
+
+  &:hover {
+    color: $color-hover;
+    background-color: $color-highlight;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 10px $color-primary;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.login-btn {
+  @include button-style($color-primary, $color-accent);
+}
+.register-btn {
+  @include button-style($color-accent, $color-primary);
+}
+
+@mixin responsive-font($min, $vw, $max) {
+  font-size: clamp($min, $vw, $max);
+}
+
+@mixin heading() {
+  margin: 0.5rem;
+  font-family: $font-heading;
+  font-weight: 400;
+  text-align: center;
+}
+
+@mixin body-text($size: 1rem, $weight: 400) {
+  font-family: $font-body;
+  font-size: $size;
+  font-weight: $weight;
+}
+
+@mixin accent-text() {
+  font-family: $font-accent;
+  font-style: italic;
+  font-weight: 400;
+}
+
+@mixin form-container($bg-color: $color-hover, $txt-color: $color-highlight) {
+  background-color: $bg-color;
+  color: $txt-color;
+
+  border-radius: 2.5px;
+  padding: clamp(1rem, 2vw, 2rem);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+@mixin form-input(
+  $padding-min: 5px,
+  $padding-vw: 2vw,
+  $padding-max: 15px,
+  $border-color: $color-accent
+) {
+  @include body-text(1.25rem);
+  padding: clamp($padding-min, $padding-vw, $padding-max);
+  margin: clamp(1rem, 2vh, 2rem);
+  border-radius: 2.5px;
+  border: none;
+  box-shadow: 5px 5px 10px $color-primary;
+
+}
+
+@mixin form-error($color: $color-accent, $font-size: 0.85rem) {
+  @include accent-text();
+  color: $color;
+  font-size: $font-size;
+  width: 100%;
+  padding: clamp(0.25rem, 0.5vw, 0.25rem);
+  padding: clamp(0.25rem, 0.5vw, 0.25rem);
+
+}
+
+@mixin form-heading(
+  $font-size-min: 1.8rem,
+  $font-size-vw: 4vw,
+  $font-size-max: 2.2rem
+) {
+  @include heading();
+  font-size: clamp($font-size-min, $font-size-vw, $font-size-max);
+  color: $color-primary;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+

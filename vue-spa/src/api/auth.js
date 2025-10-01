@@ -7,7 +7,7 @@ async function handleRequest(method, url, data = null) {
 
     return response;
   } catch (err) {
-    throw err.response?.data || { message: "Something went wrong!" };
+    throw err;
   }
 }
 

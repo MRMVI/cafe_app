@@ -1,37 +1,45 @@
 <template>
   <section class="login">
-    <h2>Login</h2>
+    <h2 class="heading">Login</h2>
 
-    <Form @submit="handleLogin" :validation-schema="schema">
-      <!-- Email -->
-      <div>
-        <label>
-          Email:
-          <Field name="email" type="email" placeholder="Email..." />
-        </label>
-        <ErrorMessage name="email" />
-      </div>
+    <div class="login-form">
+      <Form @submit="handleLogin" :validation-schema="schema">
+        <!-- Email -->
+        <div>
+          <label>
+            Email: <br />
+            <Field name="email" type="email" placeholder="Email..." />
+          </label>
+          <div class="error-message">
+            <ErrorMessage name="email" />
+          </div>
+        </div>
 
-      <!-- Password -->
-      <div>
-        <label>
-          Password:
-          <Field name="password" type="password" placeholder="Password..." />
-        </label>
-        <ErrorMessage name="password" />
-      </div>
+        <!-- Password -->
+        <div>
+          <label>
+            Password: <br />
+            <Field name="password" type="password" placeholder="Password..." />
+          </label>
+          <div class="password">
+            <ErrorMessage name="password" />
+          </div>
+        </div>
 
-      <button type="submit" :disabled="loading">
-        {{ loading ? "logging in ..." : "login" }}
-      </button>
-    </Form>
+        <button type="submit" :disabled="loading" class="login-btn">
+          {{ loading ? "logging in ..." : "login" }}
+        </button>
+      </Form>
+    </div>
 
     <!-- Feedback -->
-    <div v-if="success">
-      <p>✅ Login successful</p>
-    </div>
-    <div v-if="error">
-      <p style="color: red">❌ {{ error }}</p>
+    <div class="feedback">
+      <div v-if="success">
+        <p>✅ User logged in successfully!</p>
+      </div>
+      <div v-for="(error, index) in errors" :key="index">
+        <p style="color: red">❌ {{ error }}</p>
+      </div>
     </div>
   </section>
 </template>
@@ -50,13 +58,9 @@ const schema = yup.object({
     .string()
     .required("Email is required")
     .email("Please enter a valid email"),
-  password: yup
-    .string()
-    .required("Password is required.")
-    .min(8, "At least 8 characters"),
 });
 
-const { success, loading, error, onSubmit } = useAuthForm(login);
+const { success, loading, errors, onSubmit } = useAuthForm(login);
 
 async function handleLogin(values) {
   try {
@@ -70,7 +74,39 @@ async function handleLogin(values) {
       router.push("/");
     }
   } catch (err) {
-    error.value = err.message || "Login failed";
+    console.error("Error: ", err);
+    return;
   }
 }
 </script>
+
+<style lang="scss">
+@use "@/assets/styles/variables" as *;
+@use "@/assets/styles/mixins" as *;
+
+.heading {
+  @include responsive-font(1rem, 3vw, 2rem);
+  @include heading();
+}
+
+.login-form {
+  @include form-container();
+
+  h2 {
+    @include form-heading();
+  }
+
+  input {
+    @include form-input();
+  }
+
+  .error-message {
+    @include form-error();
+  }
+
+  .login-btn {
+    @include button-style($color-accent, $color-primary);
+    width: 100%;
+  }
+}
+</style>

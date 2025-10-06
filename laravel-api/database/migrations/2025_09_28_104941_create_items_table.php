@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name')->index();
             $table->text('description')->nullable();
-            $table->string('photo_path');
+            $table->string('photo_path')->nullable();
             $table->decimal('price', 8, 2)->index();
             $table->boolean('is_available')->default(true);
+            $table->enum('category', ['beverages', 'food', 'specials/combos', 'extras/add-ons'])->default('beverages');
             $table->timestamps();
         });
     }

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\RefreshToken;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -27,26 +29,62 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        // find user
+        // find user by email
         $user = User::where('email', $request->email)->first();
         // check credentials
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'status' => 'error',
                 'message' => 'Invalid email or password'
             ], 401);
         }
-        // create token (including role info in token name)
+
+        // 1️⃣ create token (including role info in token name) [short-lived]
         $token = $user->createToken($user->role . '_token')->plainTextToken;
 
-        // return response
+        // 2️⃣ create refresh token and store it in the database [long-lived]
+        $refreshToken = Str::random(64);
 
+        $user->refreshTokens()->create([
+            'token' => hash('sha256', $refreshToken),
+            'expires_at' => Carbon::now()->addDays(30)
+        ]);
+
+        // 3️⃣ return response with:
+        // - access token in JSON
+        // - refresh token as HTTPOnly cookie
         return response()->json([
-            'status' => 'success',
-            'message' => 'Login successful',
+            'message' => 'Login successful.',
             'user' => $user,
             'role' => $user->role,
-            'token' => $token
+            'access_token' => $token,
+        ], 200)->cookie(
+            'refresh_token',
+            $refreshToken,
+            43200,
+            '/', // the path where the cookie is sent("/" -> every route)
+            null,
+            true,
+            true,
+            false,
+            // 'Strict'
+        );
+    }
+
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Not authenticated'], 401);
+        }
+
+        // $user->currentAccessToken()->delete();
+        $request->user()->tokens()->delete();
+        $user->refreshTokens()->delete();
+
+        return response()->json([
+            "message" => "Logged out successfully."
         ], 200);
     }
 }

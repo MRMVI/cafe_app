@@ -59,4 +59,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->role === 'user';
     }
+
+    public function refreshTokens()
+    {
+        return $this->hasMany(RefreshToken::class);
+    }
+    /**
+     * Now you can do things like:
+     * $user->refreshTokens()->create(['token' => hash(), 'expires_at'=>now()->addDays(30)])
+     */
 }

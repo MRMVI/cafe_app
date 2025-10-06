@@ -1,7 +1,13 @@
 <template>
   <section class="admin-dashboard">
-    <h1>Welcome, Admin!</h1>
-    <p>Use the sidebar to navigate between adding items and viewing orders.</p>
+    <h1>Welcome, {{ userName }}!</h1>
   </section>
 </template>
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+const userName = ref("");
+
+onMounted(() => {
+  userName.value = JSON.parse(localStorage.getItem("user")).name || "Admin";
+});
+</script>

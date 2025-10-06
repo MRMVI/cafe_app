@@ -10,11 +10,18 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+    Route::post('/refresh', 'refresh');
+});
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+// protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 
-
+// admin only
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     // Admin - create item
     Route::post('/admin/items', [ItemController::class, 'store']);

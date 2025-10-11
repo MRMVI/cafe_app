@@ -26,10 +26,10 @@ class UpdateItemRequest extends FormRequest
         return [
             'name' => 'sometimes|string|max:255',
             'description' => 'sometimes|string|nullable',
-            'price' => 'sometimes|numeric|min:0',
-            'is_available' => 'sometimes|boolean',
+            'price' => 'sometimes|string|min:0',
+            'is_available' => 'sometimes|string',
             'category' => 'sometimes|in:' . implode(',', Item::CATEGORIES),
-            'photo' => 'sometimes|image|mimes:jpg,jpeg,png|max:2048',
+            'photo' => 'sometimes|image|mimes:jpg,jpeg,png',
         ];
     }
 }

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
-            $table->text('description')->nullable();
-            $table->string('photo_path')->nullable();
+            $table->text('description');
+            $table->string('photo_path');
             $table->decimal('price', 8, 2)->index();
-            $table->boolean('is_available')->default(true);
-            $table->enum('category', ['beverages', 'food', 'specials/combos', 'extras/add-ons'])->default('beverages');
+            $table->boolean('is_available')->default(false);
+            $table->enum('category', ['beverages', 'food', 'specials', 'extras'])->default('beverages');
             $table->timestamps();
         });
     }

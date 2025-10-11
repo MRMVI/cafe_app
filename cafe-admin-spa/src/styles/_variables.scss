@@ -1,0 +1,48 @@
+// 🎯 COLORS
+$primary-color: #3b82f6; // blue – main brand color
+$primary-hover: #2563eb;
+$secondary-color: #10b981; // green – success
+$accent-color: #f59e0b; // amber – highlight or warning
+$error-color: #ef4444; // red – errors
+$background-color: #f9fafb; // light gray background
+$surface-color: #ffffff; // white cards
+$text-color: #1f2937; // dark gray text
+$text-muted: #6b7280; // secondary text
+$border-color: #e5e7eb; // light borders
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+// 🌓 (Optional) Dark mode palette
+$dark-bg: #1e293b;
+$dark-surface: #334155;
+$dark-text: #f1f5f9;
+$dark-border: #475569;
+
+// ✨ GRADIENTS (optional but nice for buttons or headers)
+$gradient-primary: linear-gradient(135deg, #3b82f6, #2563eb);
+$gradient-accent: linear-gradient(135deg, #10b981, #14b8a6);
+
+// 🔤 FONTS
+$font-family-base: 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+$font-family-heading: 'Poppins', 'Segoe UI', sans-serif;
+
+// 🧱 FONT SIZES
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px
+$font-size-lg: 1.25rem;   // 20px
+$font-size-xl: 1.5rem;    // 24px
+$font-size-xxl: 2rem;     // 32px
+
+// 🧩 SPACING & RADIUS
+$border-radius-sm: 4px;
+$border-radius: 8px;
+$border-radius-lg: 16px;
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 40px;
+
+
+$breakpoint-desktop: 1024px;
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 480px;

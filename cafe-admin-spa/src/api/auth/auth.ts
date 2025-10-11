@@ -47,8 +47,9 @@ export async function login(
 }
 
 export function logout(): Promise<AxiosResponse<LogoutResponse>> {
-  return hanldeRequest<LogoutResponse>("POST", "/logout");
+  return hanldeRequest<LogoutResponse>("POST", "/logout", null);
 }
+
 export function resetPassword() {}
 
 export async function refreshAccessToken() : Promise<void> {

@@ -1,0 +1,197 @@
+@mixin responsive-gap($desktop: 16px, $tablet: 12px, $mobile: 8px) {
+  gap: $desktop; // default for large screens
+
+  @media (max-width: 1024px) {
+    gap: $tablet;
+  }
+
+  @media (max-width: 600px) {
+    gap: $mobile;
+  }
+}
+
+@mixin responsive-text($min: 1rem, $max: 1.5rem) {
+  font-size: clamp($min, 2vm, $max);
+}
+
+@mixin responsive-margin($desktop: 16px, $tablet: 12px, $mobile: 8px) {
+  margin: $desktop;
+
+  @media (max-width: 1024px) {
+    margin: $tablet;
+  }
+
+  @media (max-width: 600px) {
+    margin: $mobile;
+  }
+}
+
+@mixin responsive-padding(
+  $desktop-vert: 24px,
+  $desktop-horz: 24px,
+  $tablet-vert: 16px,
+  $tablet-horz: 16px,
+  $mobile-vert: 8px,
+  $mobile-horz: 8px
+) {
+  padding: $desktop-vert $desktop-horz;
+
+  @media (max-width: 1024px) {
+    padding: $tablet-vert $tablet-horz;
+  }
+
+  @media (max-width: 600px) {
+    padding: $mobile-vert $mobile-horz;
+  }
+}
+
+// center content (flexbox)
+@mixin responsive-flex-center(
+  $flex-direction: column,
+  $justify-content: center,
+  $align-items: center
+) {
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  @include responsive-gap();
+  @include responsive-text();
+}
+
+@mixin responsive-padding($desktop: 12px, $tablet: 8px, $mobile: 4px) {
+  padding: $desktop;
+
+  @media (max-width: 1024px) {
+    padding: $tablet;
+  }
+
+  @media (max-width: 600px) {
+    padding: $mobile;
+  }
+}
+
+@mixin responsive-form(
+  $max-width: 400px,
+  $form-bg: $surface-color,
+  $field-gap-desktop: 24px,
+  $field-gap-tablet: 16px,
+  $field-gap-mobile: 12px,
+  $input-padding-desktop: 12px,
+  $input-padding-tablet: 10px,
+  $input-padding-mobile: 8px,
+  $button-padding-desktop: 14px,
+  $button-padding-tablet: 12px,
+  $button-padding-mobile: 10px
+) {
+  background-color: $form-bg;
+  border-radius: $border-radius;
+  @include responsive-padding();
+  @include responsive-flex-center();
+  
+  .input-field {
+    label {
+      color: $text-color;
+      @include responsive-flex-center(row, space-between, center);
+
+      input,
+      .textarea,
+      .dropdown {
+        @include responsive-text();
+        margin: 15px;
+        padding: $input-padding-desktop;
+        border: 1px solid $border-color;
+        transition: border 0.2s, box-shadow 0.2s;
+        align-self: flex-end;
+
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+        }
+      }
+    }
+
+    .error-text {
+      color: red;
+      margin: 5px;
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    max-width: $max-width;
+    cursor: pointer;
+    border: none;
+    color: $surface-color;
+    @include responsive-text();
+    padding: $button-padding-desktop;
+    border-radius: $border-radius;
+    background: $gradient-accent;
+    transition: box-shadow 0.3s ease;
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+    @media (max-width: $breakpoint-desktop) {
+    
+  }
+
+}
+
+
+@mixin responsive-feedback(
+  $max-width: 400px,
+  $success-color: $secondary-color,
+  $error-color: $error-color,
+  $spacing-vertical: 16px,
+  $text-size-min: 0.875rem,
+  $text-size-max: 1rem
+) {
+  width: 100%;
+  max-width: $max-width;
+  @include responsive-margin();
+  @include responsive-padding();
+  @include responsive-text();
+  text-align: center;
+
+  .success {
+    color: $success-color;
+  }
+
+  .error {
+    color: $error-color;
+  }
+}
+
+@mixin card($padding: 1.2rem, $radius: 1rem, $shadow: $shadow-color) {
+  background-color: $background-color;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: $padding;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 8px $shadow-color;
+  
+
+  &:hover {
+
+    transform: translateY(-3px);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+}
+
+
+
+// @mixin mobile {
+//   @media (max-width: 768px) {
+//     @content;
+//   }
+// }

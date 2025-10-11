@@ -38,6 +38,10 @@ class AuthController extends Controller
             ], 401);
         }
 
+        // force logout previous session
+        $user->tokens()->delete();
+        $user->refreshTokens()->delete();
+
         // 1️⃣ create token (including role info in token name) [short-lived]
         $token = $user->createToken($user->role . '_token')->plainTextToken;
 
@@ -46,7 +50,7 @@ class AuthController extends Controller
 
         $user->refreshTokens()->create([
             'token' => hash('sha256', $refreshToken),
-            'expires_at' => Carbon::now()->addDays(30)
+            'expires_at' => Carbon::now()->addDays(30) // DB
         ]);
 
         // 3️⃣ return response with:
@@ -60,7 +64,7 @@ class AuthController extends Controller
         ], 200)->cookie(
             'refresh_token',
             $refreshToken,
-            43200,
+            43200, // 30 days (cookie)
             '/', // the path where the cookie is sent("/" -> every route)
             null,
             true,
@@ -68,6 +72,38 @@ class AuthController extends Controller
             false,
             // 'Strict'
         );
+    }
+
+    public function refresh(Request $request)
+    {
+        $refreshToken = $request->cookie('refresh_token');
+
+        if (!$refreshToken) {
+            return response()->json(['message' => 'No refresh token provided'], 401);
+        }
+
+        $hashed = hash('sha256', $refreshToken);
+
+
+        $tokenRecord = RefreshToken::where('token', $hashed)
+            ->where('expires_at', '>', now())
+            ->first();
+
+        if (!$tokenRecord) {
+            return response()->json(['message' => 'Invalid or expired refresh token'], 401);
+        }
+
+        $user = $tokenRecord->user;
+
+        // delete old access tokens
+        $user->tokens()->delete();
+
+        // create new access token
+        $newAccessToken = $user->createToken($user->role . '_token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $newAccessToken
+        ]);
     }
 
 
@@ -85,6 +121,6 @@ class AuthController extends Controller
 
         return response()->json([
             "message" => "Logged out successfully."
-        ], 200);
+        ], 200)->withoutCookie('refresh_token');
     }
 }

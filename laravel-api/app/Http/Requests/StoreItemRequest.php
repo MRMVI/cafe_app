@@ -25,11 +25,20 @@ class StoreItemRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'is_available' => 'boolean',
+            'is_available' => 'required|boolean',
             'category' => 'required|in:' . implode(',', Item::CATEGORIES),
-            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            'photo' => 'required|image|mimes:jpg,jpeg,png'
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('is_available')) {
+            $this->merge([
+                'is_available' => filter_var($this->is_available, FILTER_VALIDATE_BOOLEAN),
+            ]);
+        }
     }
 }

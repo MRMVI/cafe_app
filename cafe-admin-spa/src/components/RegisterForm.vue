@@ -5,57 +5,82 @@
     <div class="register-form">
       <form @submit.prevent="onSubmit">
         <!-- Name -->
-        <div>
+        <div class="input-field">
           <label>
-            Name: <br />
-            <Field type="text" name="name" as="input" />
+            Name:
+            <Field
+              type="text"
+              name="name"
+              as="input"
+              placeholder="Enter your name..."
+            />
           </label>
-
-          <ErrorMessage name="name" />
+          <div class="error-text">
+            <ErrorMessage name="name" />
+          </div>
         </div>
 
         <!-- Email -->
-        <div>
+        <div class="input-field">
           <label>
             Email:
-            <Field type="email" name="email" as="input" />
+            <Field
+              type="email"
+              name="email"
+              as="input"
+              placeholder="Enter your email address ..."
+            />
           </label>
-
-          <ErrorMessage name="email" />
+          <div class="error-text">
+            <ErrorMessage name="email" />
+          </div>
         </div>
 
         <!-- Password -->
-        <div>
+        <div class="input-field">
           <label>
             Password:
-            <Field type="password" name="password" as="input" />
+            <Field
+              type="password"
+              name="password"
+              as="input"
+              placeholder="Enter password ..."
+            />
           </label>
-
-          <ErrorMessage name="password" />
+          <div class="error-text">
+            <ErrorMessage name="password" />
+          </div>
         </div>
 
         <!-- Password Confirmation -->
-        <div>
+        <div class="input-field">
           <label>
             Confirm Password:
-            <Field type="password" name="password_confirmation" as="input" />
+            <Field
+              type="password"
+              name="password_confirmation"
+              as="input"
+              placeholder="Confirm your password..."
+            />
           </label>
-
-          <ErrorMessage name="password_confirmation" />
+          <div class="error-text">
+            <ErrorMessage name="password_confirmation" />
+          </div>
         </div>
-
-        <button type="submit" :disabled="loading" class="register-btn">
-          {{ loading ? "registering ..." : "register" }}
-        </button>
+        <div>
+          <button type="submit" :disabled="loading" class="submit-btn">
+            {{ loading ? "registering ..." : "register" }}
+          </button>
+        </div>
       </form>
     </div>
 
     <!-- Feedback -->
     <div class="feedback">
-      <div v-if="success">
+      <div v-if="success" class="success">
         <p>✅ User registered successfully!</p>
       </div>
-      <div v-for="(error, index) in errorMessages" :key="index">
+      <div v-for="(error, index) in errorMessages" :key="index" class="error">
         <p style="color: red">❌ {{ error }}</p>
       </div>
     </div>
@@ -71,7 +96,6 @@ import * as yup from "yup";
 
 // 1️⃣ Define the type of our form values
 import type { RegisterResponse, RegisterValues } from "../types";
-import { useRouter } from "vue-router";
 
 const { success, loading, errorMessages, onSubmitForm } = useAuthForm<
   RegisterValues,
@@ -80,10 +104,10 @@ const { success, loading, errorMessages, onSubmitForm } = useAuthForm<
 
 // 2️⃣ Define validation schema
 const schema = yup.object({
-  name: yup.string().required("Name is required."),
-  email: yup.string().required("Email is required."),
-  password: yup.string().required("Password is required."),
-  password_confirmation: yup.string().required("Confirm the password."),
+  name: yup.string().required("*Name is required."),
+  email: yup.string().required("*Email is required."),
+  password: yup.string().required("*Password is required."),
+  password_confirmation: yup.string().required("*Confirm the password."),
 });
 
 // 3️⃣ Setup useForm with explicit types
@@ -97,15 +121,33 @@ const { handleSubmit } = useForm<RegisterValues>({
   },
 });
 
-const router = useRouter();
+// const router = useRouter();
 // 4️⃣ Submission callback
 const onSubmit = handleSubmit(async (values: RegisterValues) => {
   try {
     await onSubmitForm(values);
-    router.push("/login");
+    // router.push("/login");
   } catch (err) {
     console.error(err);
-    throw err;
   }
 });
 </script>
+
+<style scoped lang="scss">
+@import "@/styles/variables";
+@import "@/styles/_mixins.scss";
+
+.register {
+  border: 1px solid $border-color;
+  @include responsive-flex-center();
+  @include responsive-padding();
+
+  .register-form {
+    @include responsive-form();
+  }
+}
+
+.feedback {
+  @include responsive-feedback();
+}
+</style>

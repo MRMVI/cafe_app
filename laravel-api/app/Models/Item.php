@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Item extends Model
 {
@@ -29,8 +30,8 @@ class Item extends Model
     // categories enum
     const CATEGORY_BEVERAGES = 'beverages';
     const CATEGORY_FOOD = 'food';
-    const CATEGORY_SPECIALS = 'specials/combos';
-    const CATEGORY_EXTRAS = 'extras/add-ons';
+    const CATEGORY_SPECIALS = 'specials';
+    const CATEGORY_EXTRAS = 'extras';
 
     const CATEGORIES  = [
         self::CATEGORY_BEVERAGES,
@@ -42,4 +43,13 @@ class Item extends Model
     // availability constants
     const AVAILABLE = true;
     const NOT_AVAILABLE = false;
+
+    protected static function booted()
+    {
+        static::deleting(function ($item) {
+            if ($item->photo_path && Storage::disk('public')->exists($item->photo_path)) {
+                Storage::disk('public')->delete($item->photo_path);
+            }
+        });
+    }
 }

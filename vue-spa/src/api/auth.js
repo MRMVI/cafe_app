@@ -13,24 +13,14 @@ async function handleRequest(method, url, data = null) {
 
 // Register a user
 export function register(payload) {
-  // payload = {name, email, password, password_confirmation, role}
+  // payload = {name, email, password, password_confirmation}
+  payload = { ...payload, role: "user" };
   return handleRequest("post", "/register", payload);
 }
 
 export async function login(payload) {
   // payload = {email, password}
-  const response = handleRequest("post", "/login", payload);
-
-  const { user, token } = (await response).data;
-
-  // save user info and token in local storage
-  localStorage.setItem("user", JSON.stringify(user));
-  localStorage.setItem("token", token);
-
-  // set token for future axios requests
-  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-  return response;
+  return handleRequest("post", "/login", payload);
 }
 
 export async function logout() {

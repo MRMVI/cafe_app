@@ -1,47 +1,81 @@
 <template>
   <header class="app-header">
     <nav class="nav-bar">
-      <button type="button" @click="hanldeLogout" class="btn-logout">
-        logout
+      <!-- Logo or brand -->
+      <div class="logo">
+        <router-link to="/dashboard">Fireside Café</router-link>
+      </div>
+
+      <!-- Hamburger menu for mobile -->
+      <button class="hamburger" @click="toggleMenu">
+        <span :class="{ open: menuOpen }"></span>
+        <span :class="{ open: menuOpen }"></span>
+        <span :class="{ open: menuOpen }"></span>
       </button>
-      <ul class="nav-links">
+
+      <!-- Navigation links -->
+      <ul :class="['nav-links', { open: menuOpen }]">
         <li>
-          <router-link to="/dashboard" class="nav-link">dashboard</router-link>
-        </li>
-        <li>
-          <router-link to="/dashboard/menu" class="nav-link">menu</router-link>
-        </li>
-        <li>
-          <router-link to="/dashboard/add-item" class="nav-link"
-            >Add Menu Item</router-link
+          <router-link to="/dashboard" class="nav-link" @click="closeMenu"
+            >Dashboard</router-link
           >
         </li>
         <li>
-          <router-link to="/dashboard/orders" class="nav-link"
-            >orders</router-link
+          <router-link to="/dashboard/menu" class="nav-link" @click="closeMenu"
+            >Menu</router-link
           >
+        </li>
+        <li>
+          <router-link
+            to="/dashboard/add-item"
+            class="nav-link"
+            @click="closeMenu"
+            >Add Item</router-link
+          >
+        </li>
+        <li>
+          <router-link
+            to="/dashboard/orders"
+            class="nav-link"
+            @click="closeMenu"
+            >Orders</router-link
+          >
+        </li>
+        <li>
+          <button type="button" @click="handleLogout" class="btn-logout">
+            Logout
+          </button>
         </li>
       </ul>
     </nav>
   </header>
-  <main>
-    <router-view></router-view>
-  </main>
+  <main><router-view></router-view></main>
 </template>
+
 <script setup lang="ts">
-import { logout } from "../api/auth/auth";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
+import { logout } from "../api/auth/auth";
 
 const router = useRouter();
 const userStore = useUserStore();
-const hanldeLogout = async () => {
+
+const menuOpen = ref(false);
+
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value;
+};
+
+const closeMenu = () => {
+  menuOpen.value = false;
+};
+
+const handleLogout = async () => {
   try {
     await logout();
-    // remove token from LocalStorage
     localStorage.removeItem("access_token");
     userStore.logout();
-    // redirect to login page
     router.push("/login");
   } catch (err) {
     console.error(err);
@@ -57,56 +91,130 @@ const hanldeLogout = async () => {
   width: 100%;
   background-color: $surface-color;
   border-bottom: 1px solid $border-color;
-  @include responsive-padding();
 
   .nav-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    padding: 0.5rem 1rem;
+    //position: relative;
 
-    .btn-logout {
-      cursor: pointer;
-      border: none;
-      border-radius: $border-radius;
-      background: $gradient-primary;
-      color: $surface-color;
+    .logo a {
+      text-decoration: none;
       font-weight: bold;
-      @include responsive-padding();
-      @include responsive-text();
-      transition: background 0.3s ease, box-shadow 0.3s ease;
+      font-size: 1.5rem;
+      color: #3e2723;
+      font-family: $font-heading;
+    }
 
-      &:hover {
-        background: $gradient-accent;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 25px;
+      height: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+
+      span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background: $text-color;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      span.open:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      span.open:nth-child(2) {
+        opacity: 0;
+      }
+      span.open:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
       }
     }
 
+    /* Nav links */
     .nav-links {
-      display: flex;
+      margin: 10px;
       list-style: none;
-      @include responsive-gap();
-      @include responsive-padding();
-      @include responsive-text();
-      @include responsive-margin();
+      gap: 1.5rem;
+      display: flex;
+      align-items: center;
 
-      .nav-link {
-        text-decoration: none;
-        color: $text-color;
-        @include responsive-text();
-        border-radius: $border-radius;
-        @include responsive-padding();
-        transition: background 0.3s ease;
+      li {
+        margin-top: 5px;
 
-        &:hover {
-          background: $gradient-primary;
-          color: $surface-color;
+        .nav-link {
+          text-decoration: none;
+          padding: 5px 10px;
+          border-radius: $border-radius-sm;
+          transition: background 0.3s ease, color 0.3s ease;
+
+          &:hover {
+            background: $gradient-primary;
+            color: $surface-color;
+          }
+
+          &.router-link-exact-active {
+            background: $gradient-accent;
+            color: $surface-color;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+          }
         }
 
-        &.router-link-exact-active {
-          background: $gradient-accent;
+        .btn-logout {
+          cursor: pointer;
+          border: none;
+          border-radius: $border-radius-sm;
+          background: $gradient-primary;
           color: $surface-color;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          font-weight: bold;
+          padding: 5px 10px;
+          transition: background 0.3s ease, box-shadow 0.3s ease;
+
+          &:hover {
+            background: $gradient-accent;
+          }
+        }
+      }
+    }
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: $breakpoint-desktop) {
+    .app-header,
+    .nav-bar {
+      flex-wrap: wrap;
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        max-height: 0;
+        width: 100%;
+        align-items: flex-start;
+
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+
+        &.open {
+          max-height: 500px; /* enough to show all items */
+        }
+
+        li {
+          .nav-link,
+          .btn-logout {
+            text-align: center;
+            margin: 5px 0;
+          }
         }
       }
     }

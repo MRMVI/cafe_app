@@ -3,10 +3,10 @@ import RegisterForm from "../components/RegisterForm.vue";
 import LoginForm from "../components/LoginForm.vue";
 import Layout from "../layouts/layout.vue";
 import Dashboard from "../pages/Dashboard.vue";
-import MenuPage from "../pages/MenuPage.vue";
 import OrdersPage from "../pages/OrdersPage.vue";
 import AddMenuItemForm from "../components/menu/AddMenuItemForm.vue";
 import WelcomePage from "../pages/WelcomePage.vue";
+import MenuList from "../components/menu/MenuList.vue";
 
 const routes = [
   {
@@ -34,7 +34,7 @@ const routes = [
       },
       {
         path: "menu",
-        component: MenuPage,
+        component: MenuList,
       },
       {
         path: "add-item",

@@ -2,13 +2,12 @@
 // 🎨 Color Palette (Raw Colors)
 // =============================
 
-$espresso: #4b3832;     // Dark espresso brown
-$latte: #d9b382;        // Warm latte beige
-$mocha: #6f4e37;        // Rich mocha brown
-$cream: #f5f5dc;        // Light cream
-$cappuccino: #a67b5b;   // Medium cappuccino brown
-$background: #f2ede3;   // Neutral page background
-
+$espresso: #3e2723;     // Dark chocolate brown
+$latte: #e0c097;        // Soft caramel beige
+$mocha: #8d6e63;        // Smooth mocha brown
+$cream: #fff8e1;        // Soft creamy off-white
+$cappuccino: #bc8f70;   // Warm cappuccino brown
+$background: #f9f5f0;   // Light cozy background
 
 // =============================
 // 🌐 Semantic Color Roles
@@ -18,8 +17,9 @@ $color-primary: $espresso;      // Main brand color → buttons, headers
 $color-accent: $latte;          // Secondary accent → secondary buttons, highlights
 $color-hover: $mocha;           // Hover states for interactive elements
 $color-highlight: $cream;       // Light highlights → quotes, overlays
-$color-footer: $cappuccino;     // Footer background, small accents
+$color-footer: $espresso;     // Footer background, small accents
 $color-background: $background; // Page background
+$border-color: $cream;
 
 // =============================
 // ✍️ Typography Variables
@@ -30,3 +30,10 @@ $font-heading: "Lobster", cursive;   // Cafe name, main headings
 $font-body: "Nunito", sans-serif;    // Paragraphs, menus, content
 $font-accent: "Great Vibes", cursive; // Quotes, taglines, accents
 
+$breakpoint-desktop: 1024px;
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 480px;
+
+$border-radius-sm: 4px;
+$border-radius: 8px;
+$border-radius-lg: 16px;

@@ -1,74 +1,89 @@
 <template>
   <section class="register">
-    <h2 class="heading">Register</h2>
+    <h2 class="register_heading">Register</h2>
 
-    <div class="register-form">
+    <div class="form_container">
       <form @submit.prevent="onSubmit">
         <!-- Name -->
-        <div class="input-field">
-          <label>
-            Name:
+        <div class="form_row">
+          <div class="col-25">
+            <label for="name">Name: </label>
+          </div>
+
+          <div class="col-75">
             <Field
-              type="text"
+              id="name"
               name="name"
-              as="input"
-              placeholder="Enter your name..."
+              type="text"
+              placeholder="Item name..."
             />
-          </label>
-          <div class="error-text">
-            <ErrorMessage name="name" />
           </div>
         </div>
+        <div class="error-text"><ErrorMessage name="name" /></div>
 
         <!-- Email -->
-        <div class="input-field">
-          <label>
-            Email:
+        <div class="form_row">
+          <div class="col-25">
+            <label for="email">Email: </label>
+          </div>
+
+          <div class="col-75">
             <Field
-              type="email"
+              id="email"
               name="email"
+              type="email"
+              placeholder="Email address..."
               as="input"
-              placeholder="Enter your email address ..."
             />
-          </label>
-          <div class="error-text">
-            <ErrorMessage name="email" />
           </div>
         </div>
+        <div class="error-text"><ErrorMessage name="email" /></div>
 
         <!-- Password -->
-        <div class="input-field">
-          <label>
-            Password:
+        <div class="form_row">
+          <div class="col-25">
+            <label for="password">Password: </label>
+          </div>
+
+          <div class="col-75">
             <Field
-              type="password"
+              id="password"
               name="password"
+              type="password"
+              placeholder="Enter Password ..."
               as="input"
-              placeholder="Enter password ..."
             />
-          </label>
-          <div class="error-text">
-            <ErrorMessage name="password" />
           </div>
         </div>
+        <div class="error-text"><ErrorMessage name="password" /></div>
 
         <!-- Password Confirmation -->
-        <div class="input-field">
-          <label>
-            Confirm Password:
+        <div class="form_row">
+          <div class="col-25">
+            <label for="password_confirmation">Confirm Password:: </label>
+          </div>
+
+          <div class="col-75">
             <Field
-              type="password"
+              id="password_confirmation"
               name="password_confirmation"
+              type="password"
+              placeholder="Enter Password ..."
               as="input"
-              placeholder="Confirm your password..."
             />
-          </label>
-          <div class="error-text">
-            <ErrorMessage name="password_confirmation" />
           </div>
         </div>
+        <div class="error-text">
+          <ErrorMessage name="password_confirmation" />
+        </div>
+
         <div>
-          <button type="submit" :disabled="loading" class="submit-btn">
+          <button
+            type="submit"
+            :disabled="loading"
+            class="submit_btn"
+            :style="{ width: '100%' }"
+          >
             {{ loading ? "registering ..." : "register" }}
           </button>
         </div>
@@ -137,14 +152,9 @@ const onSubmit = handleSubmit(async (values: RegisterValues) => {
 @import "@/styles/variables";
 @import "@/styles/_mixins.scss";
 
-.register {
-  border: 1px solid $border-color;
-  @include responsive-flex-center();
-  @include responsive-padding();
-
-  .register-form {
-    @include responsive-form();
-  }
+.register_heading {
+  text-align: center;
+  margin: 10px;
 }
 
 .feedback {

@@ -29,7 +29,7 @@ export const useMenuStore = defineStore("menu", {
 
   getters: {
     itemCount: (state) => state.items.length,
-    availableItemCount: (state) =>
+    availableItemsCount: (state) =>
       state.items.filter((item) => item.is_available === true).length,
     getItem: (state) => {
       return (id: number) => state.items.find((item) => item.id === id);

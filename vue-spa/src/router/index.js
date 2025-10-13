@@ -1,35 +1,19 @@
+import LoginForm from "@/components/auth/LoginForm.vue";
+import RegisterForm from "@/components/auth/RegisterForm.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
     path: "/",
     component: () => import("@/views/LandingView.vue"),
-  },
-  {
-    path: "/register",
-    component: () => import("@/layouts/AuthLayout.vue"),
-    children: [
-      { path: "", component: () => import("@/views/RegisterView.vue") },
-    ],
-  },
-  {
-    path: "/login",
-    component: () => import("@/layouts/AuthLayout.vue"),
-    children: [{ path: "", component: () => import("@/views/LoginView.vue") }],
-  },
-  // Admin dashboard and nested routes
-  {
-    path: "/dashboard",
-    component: () => import("@/layouts/AdminLayout.vue"),
-    meta: { requiresAdmin: true },
     children: [
       {
-        path: "",
-        component: () => import("@/views/admin/DashboardView.vue"),
+        path: "/login",
+        component: LoginForm,
       },
       {
-        path: "add-item",
-        component: () => import("@/views/admin/AddItemView.vue"),
+        path: "/register", // ✅ fixed typo here
+        component: RegisterForm,
       },
     ],
   },
@@ -41,14 +25,5 @@ const router = createRouter({
 });
 
 // Navigation gaurd
-router.beforeEach((to, from, next) => {
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  if (to.meta.requiresAdmin && (!user || user.role !== "admin")) {
-    next("/login");
-  } else {
-    next();
-  }
-});
 
 export default router;

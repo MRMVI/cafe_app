@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\MenuUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
@@ -39,6 +40,8 @@ class ItemController extends Controller
 
         $item = Item::create($validated);
 
+        broadcast(new MenuUpdated('created', $item));
+
         return response()->json([
             'message' => 'Item created successfully',
             'item' => $item
@@ -63,6 +66,9 @@ class ItemController extends Controller
         ], 200);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     /**
      * Update the specified resource in storage.
      */
@@ -106,6 +112,8 @@ class ItemController extends Controller
         // Update the item
         $item->update($data);
 
+        broadcast(new MenuUpdated('updated', $item));
+
         return response()->json([
             'message' => 'Item updated successfully.',
             'data' => $item,
@@ -131,6 +139,8 @@ class ItemController extends Controller
         }
 
         $item->delete();
+
+        broadcast(new MenuUpdated('deleted', ['id' => $id]));
 
         return response()->json([
             'message' => 'Item deleted successfully',

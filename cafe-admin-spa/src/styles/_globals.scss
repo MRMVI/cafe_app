@@ -13,3 +13,100 @@ html, body {
   font-family: $font-family-base;
 
 }
+
+.form_container {
+  border-radius: 5px;
+  background-color: $background-color;
+  padding: 20px;
+  border: 1px solid $border-color;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  resize: vertical;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+  color: $text-color;
+}
+.form_row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.col-25 {
+  flex: 1;
+}
+
+.col-75 {
+  flex: 3;
+}
+
+.submit_btn {
+  background: $gradient-accent;
+  color: $surface-color;
+  padding: 12px 20px;
+  border-radius: $border-radius;
+
+  transition: box-shadow 0.3s ease;
+  border: none;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.form_container::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .col-25,
+  .col-75,
+  .submit_btn {
+    width: 100%;
+  }
+}
+
+.error-text {
+  color: red;
+  margin: 5px;
+}
+
+.feedback {
+  text-align: center;
+  line-height: 1.5rem;
+  margin: 10px;
+}
+

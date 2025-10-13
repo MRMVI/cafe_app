@@ -1,41 +1,52 @@
 <template>
   <section class="login">
-    <h2 class="heading">Login</h2>
+    <h2 class="loagin__heading">Login</h2>
 
-    <div class="login-form">
+    <div class="form_container">
       <form @submit.prevent="onSubmit">
-        <!-- Name -->
-        <div class="input-field">
-          <label>
-            Email
-
-            <Field
-              type="email"
-              name="email"
-              as="input"
-              placeholder="Enter your email address ..."
-            />
-          </label>
-
-          <div class="error-text"><ErrorMessage name="email" /></div>
-        </div>
-
         <!-- Email -->
-        <div class="input-field">
-          <label>
-            Password
+        <div class="form_row">
+          <div class="col-25">
+            <label for="email">Email: </label>
+          </div>
+
+          <div class="col-75">
             <Field
-              type="password"
-              name="password"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email address..."
               as="input"
-              placeholder="Enter password ..."
             />
-          </label>
-          <div class="error-text"><ErrorMessage name="password" /></div>
+          </div>
         </div>
+        <div class="error-text"><ErrorMessage name="email" /></div>
+
+        <!-- Password -->
+        <div class="form_row">
+          <div class="col-25">
+            <label for="password">Password: </label>
+          </div>
+
+          <div class="col-75">
+            <Field
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter Password ..."
+              as="input"
+            />
+          </div>
+        </div>
+        <div class="error-text"><ErrorMessage name="email" /></div>
 
         <div>
-          <button type="submit" :disabled="loading" class="submit-btn">
+          <button
+            type="submit"
+            :disabled="loading"
+            class="submit_btn"
+            :style="{ width: '100%' }"
+          >
             {{ loading ? "logging in ..." : "log in" }}
           </button>
         </div>
@@ -97,7 +108,15 @@ const onSubmit = handleSubmit(async (values: LoginValues) => {
 
     const response = await onSubmitForm(values);
     if (response) {
-      const { access_token } = response;
+      const { access_token, role } = response;
+
+      if (role !== "admin") {
+        errorMessages.value = [
+          "Access denied. This portal is for admins only.",
+        ];
+        success.value = false;
+        return;
+      }
 
       localStorage.setItem("access_token", access_token);
       await userStore.fetchUser();
@@ -114,16 +133,10 @@ const onSubmit = handleSubmit(async (values: LoginValues) => {
 @import "@/styles/variables";
 @import "@/styles/_mixins.scss";
 
-.login {
-  border: 1px solid $border-color;
-  @include responsive-flex-center();
-  @include responsive-padding();
-
-  .login-form {
-    @include responsive-form();
-  }
+.loagin__heading {
+  text-align: center;
+  margin: 10px;
 }
-
 .feedback {
   @include responsive-feedback();
 }

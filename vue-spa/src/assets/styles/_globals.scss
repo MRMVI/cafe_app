@@ -1,24 +1,162 @@
-@use "variables";
+@use "@/assets/styles/variables" as *;
+@use "@/assets/styles/mixins" as *;
 
 // =============================
 // 🌐 Global / Base styles
 // =============================
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-    height: 100%;
-}
-
+html,
 body {
-    display: flex;
-    flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  background: $color-background; // use your variable for bg
+  color: $color-primary;
+
+  @media (max-width: $breakpoint-tablet) {
+    background-image: url("@/assets/cafe-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
 }
 
 main {
-    flex: 1;
+  flex: 1;
+}
+
+.form_container {
+  border-radius: 5px;
+  padding: 20px;
+  border: 1px solid $mocha;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid $mocha;
+  border-radius: 4px;
+  resize: vertical;
+
+  &:focus {
+    outline: none;
+    border-color: $color-background;
+    box-shadow: 0 0 8px $espresso;
+  }
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+  color: $espresso;
+}
+.form_row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.col-25 {
+  flex: 1;
+}
+
+.col-75 {
+  flex: 3;
+}
+
+.submit_btn {
+  cursor: pointer;
+  background: $color-primary;
+  color: $color-highlight;
+  padding: 12px 20px;
+  border-radius: $border-radius-sm;
+
+  transition: box-shadow 0.3s ease;
+  border: none;
+  width: 100%;
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 8px 24px $color-highlight;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.form_container::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .col-25,
+  .col-75,
+  .submit_btn {
+    width: 100%;
+  }
+}
+
+.error-text {
+  color: red;
+  margin: 5px;
+}
+
+.feedback {
+  text-align: center;
+  line-height: 1.5rem;
+  margin: 10px;
+}
+
+.go_back_container {
+  margin-top: 5px;
+}
+.go_back {
+  color: $color-hover;
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.footer {
+  background-color: $color-footer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.footer__text {
+  @include body-text();
+  @include responsive-font(0.5rem, 1.5vw, 1rem);
+  color: $color-highlight; // or $cream if you want high contrast
 }

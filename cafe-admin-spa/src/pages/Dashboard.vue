@@ -18,13 +18,20 @@
 
     <!-- Dashboard Cards -->
     <div class="card-container">
-      <h2 class="card-heading">Statistics</h2>
+      <h2 class="card-heading">Menu Statistics</h2>
       <ul>
-        <li>Total Orders: 12</li>
-        <li>Pending Orders: 5</li>
-        <li>Completed Orders: 7</li>
-        <li>Menu Items: {{ menuStore.itemCount }}</li>
-        <li>Available Menu Items: {{ menuStore.availableItemCount }}</li>
+        <li>
+          <span class="strong">Menu Items:</span>
+          {{ menuStore.itemCount }}
+        </li>
+        <li>
+          <span class="strong">Available Menu Items:</span>
+          {{ menuStore.availableItemsCount }}
+        </li>
+        <li>
+          <span class="strong">Unavailable Menu Items:</span>
+          {{ +menuStore.itemCount - +menuStore.availableItemsCount }}
+        </li>
       </ul>
     </div>
 
@@ -75,7 +82,6 @@ onMounted(async () => {
   .heading {
     @include responsive-text();
     @include responsive-margin();
-    @include responsive-padding();
 
     text-align: center;
     color: $text-color;
@@ -89,9 +95,6 @@ onMounted(async () => {
   }
 
   .card-container {
-    width: 100%;
-    max-width: 400px;
-
     .card-heading {
       font-family: $font-family-heading;
       color: $primary-color;
@@ -106,17 +109,34 @@ onMounted(async () => {
         background: $surface-color;
         border: 1px solid $border-color;
         border-radius: $border-radius;
-        @include responsive-padding();
         font-family: $font-family-base;
         color: $text-color;
         @include responsive-text();
-        transition: background 0.2s ease;
+        padding: 10px;
 
         &:hover {
-          background: $gradient-accent;
-          color: $surface-color;
+          box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+          border: 1px solid rgba(59, 130, 246, 0.3);
         }
       }
+    }
+
+    .strong {
+      font-weight: bold;
+      color: $text-color;
+    }
+
+    width: 40%;
+    @media (max-width: $breakpoint-desktop) {
+      width: 60%;
+    }
+
+    @media (max-width: $breakpoint-tablet) {
+      width: 80%;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      width: 100%;
     }
   }
 }

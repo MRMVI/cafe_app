@@ -31,8 +31,6 @@ export function useAuthForm(apiFn) {
       } else {
         errors.value.push("Network error or server not responding.");
       }
-
-      return;
     } finally {
       loading.value = false;
     }

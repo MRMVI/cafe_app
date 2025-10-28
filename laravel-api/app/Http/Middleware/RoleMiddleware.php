@@ -15,6 +15,13 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthorized: Please login first'
+            ], 401);
+        }
         if ($request->user()->role !== $role) {
             return response()->json([
                 'status' => 'error',

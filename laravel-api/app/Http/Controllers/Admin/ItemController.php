@@ -40,7 +40,7 @@ class ItemController extends Controller
 
         $item = Item::create($validated);
 
-        broadcast(new MenuUpdated('created', $item));
+        event(new MenuUpdated('created', $item));
 
         return response()->json([
             'message' => 'Item created successfully',
@@ -112,7 +112,7 @@ class ItemController extends Controller
         // Update the item
         $item->update($data);
 
-        broadcast(new MenuUpdated('updated', $item));
+        event(new MenuUpdated('updated', $item));
 
         return response()->json([
             'message' => 'Item updated successfully.',
@@ -140,7 +140,7 @@ class ItemController extends Controller
 
         $item->delete();
 
-        broadcast(new MenuUpdated('deleted', ['id' => $id]));
+        event(new MenuUpdated('deleted', ['id' => $id]));
 
         return response()->json([
             'message' => 'Item deleted successfully',

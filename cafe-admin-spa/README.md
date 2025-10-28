@@ -1,5 +1,63 @@
-# Vue 3 + TypeScript + Vite
+# Cafe Admin Portal — Vue.js Dashboard
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is the admin dashboard interface for managing the cafe system. Admins can:
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+- Login to the portal
+- Create, update, and delete menu items
+- View all orders
+- Update order status (**new → preparing → done**)
+
+---
+
+## Features
+
+- Admin authentication with backend API
+- Menu CRUD (Create, Read, Update, Delete)
+- Orders dashboard with filtering and status updates
+- Dashboard metrics (optional: new orders count, revenue summary)
+- Pagination for lists
+
+---
+
+## Tech Stack
+
+- Vue 3 (Composition API)
+- Vite
+- Pinia (state management)
+- Vue Router
+- Axios for API calls
+- Tailwind CSS or Bootstrap (optional)
+
+---
+
+## Setup Instructions
+
+### 1. Clone the project
+
+```bash
+git clone https://github.com/YOUR-USERNAME/cafe-admin-frontend.git
+cd cafe-admin-frontend
+npm install
+cp .env.example .env
+VITE_API_BASE_URL=http://localhost:8000/api
+npm run dev
+```
+
+## Folder Structure
+
+src/
+api/
+axios.ts # Axios instance for API requests
+stores/
+auth.ts # Authentication store
+menu.ts # Menu management store
+order.ts # Orders store
+views/
+Login.vue
+Menus.vue
+Orders.vue
+Dashboard.vue
+components/
+MenuForm.vue
+OrderCard.vue
+OrderFilter.vue

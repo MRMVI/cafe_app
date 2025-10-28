@@ -3,7 +3,7 @@
     <h2 class="loagin__heading">Login</h2>
 
     <div class="form_container">
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="(events) => onSubmit(events)">
         <!-- Email -->
         <div class="form_row">
           <div class="col-25">
@@ -63,6 +63,11 @@
       </div>
     </div>
   </section>
+  <div class="go-back-container">
+    <router-link to="/" @click="uiStore.toggleShow" class="go-back"
+      >go back</router-link
+    >
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -76,6 +81,9 @@ import { useRouter } from "vue-router";
 // 1️⃣ Define the type of our form values
 import type { LoginValues, LoginResponse } from "../types";
 import { useUserStore } from "../stores/userStore";
+import { useUiStore } from "../stores/uiStore";
+
+const uiStore = useUiStore();
 
 const { success, loading, errorMessages, onSubmitForm } = useAuthForm<
   LoginValues,

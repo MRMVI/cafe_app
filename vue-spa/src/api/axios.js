@@ -3,6 +3,7 @@ import axios from "axios";
 // Axios instance
 const api = axios.create({
   baseURL: "http://localhost:8000/api",
+  withCredentials: true, // very important
   headers: {
     // prettier-ignore
     "Accept": "application/json",
@@ -10,9 +11,15 @@ const api = axios.create({
 });
 
 // Load token from LocalStorage on startup (if user is already logged in)
-const token = localStorage.getItem("token");
-if (token) {
-  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-}
+// Interceptor: attach token dynamically for every request
+api.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("access_token");
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  } else {
+    delete config.headers.Authorization;
+  }
+  return config;
+});
 
 export default api;

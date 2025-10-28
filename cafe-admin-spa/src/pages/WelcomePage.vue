@@ -3,7 +3,11 @@
     <h1 class="heading">Welcome to Fireside Café Admin Portal!</h1>
     <p>Manage menus and track customer orders easily.</p>
 
-    <div class="buttons-container">
+    <div
+      class="buttons-container"
+      v-if="uiStore.show"
+      @click="uiStore.toggleShow"
+    >
       <router-link to="/login" class="btn" active-class="btn-active"
         >Admin Login</router-link
       >
@@ -12,11 +16,22 @@
       >
     </div>
 
-    <router-view></router-view>
+    <div v-else>
+      <router-view></router-view>
+    </div>
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from "vue";
+import { useUiStore } from "../stores/uiStore";
+
+const uiStore = useUiStore();
+
+onMounted(() => {
+  uiStore.setShow(true);
+});
+</script>
 
 <style scoped lang="scss">
 @import "@/styles/variables";

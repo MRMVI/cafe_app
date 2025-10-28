@@ -9,5 +9,8 @@ export const useUIStore = defineStore("ui", {
     toggleCTA() {
       this.showCTA = !this.showCTA;
     },
+    setShowCTA(value) {
+      this.showCTA = value;
+    },
   },
 });

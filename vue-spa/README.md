@@ -1,29 +1,57 @@
-# vue-spa
+# Cafe User Portal — Vue.js Customer App
 
-This template should help get you started developing with Vue 3 in Vite.
+This is the customer-facing web app for browsing the cafe menu and placing orders.
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Features
 
-## Customize configuration
+- View all menu items
+- Add items to cart
+- Place orders
+- Optional: Track order status
+- Simple, responsive design
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+---
 
-## Project Setup
+## Tech Stack
 
-```sh
+- Vue 3 (Composition API)
+- Vite
+- Pinia (state management)
+- Vue Router
+- Axios for API calls
+- Tailwind CSS or Bootstrap (optional)
+
+---
+
+## Setup Instructions
+
+### 1. Clone the project
+
+```bash
+git clone https://github.com/YOUR-USERNAME/cafe-user-frontend.git
+cd cafe-user-frontend
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
+cp .env.example .env
 npm run dev
 ```
 
-### Compile and Minify for Production
+## Folder Structure
 
-```sh
-npm run build
-```
+src/
+api/
+axios.ts # Axios instance for API requests
+stores/
+cart.ts # Cart store
+menu.ts # Menu store
+order.ts # Order store
+views/
+Home.vue # List all menu items
+Cart.vue # View cart and checkout
+OrderSuccess.vue # Order confirmation
+OrderStatus.vue # Optional: Track order status
+components/
+MenuCard.vue
+CartItem.vue
+CheckoutForm.vue

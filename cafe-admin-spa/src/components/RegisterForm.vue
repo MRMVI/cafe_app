@@ -99,6 +99,12 @@
         <p style="color: red">❌ {{ error }}</p>
       </div>
     </div>
+
+    <div class="go-back-container">
+      <router-link to="/" @click="uiStore.toggleShow" class="go-back"
+        >go back</router-link
+      >
+    </div>
   </section>
 </template>
 
@@ -111,6 +117,10 @@ import * as yup from "yup";
 
 // 1️⃣ Define the type of our form values
 import type { RegisterResponse, RegisterValues } from "../types";
+import { useUiStore } from "../stores/uiStore";
+import { useRouter } from "vue-router";
+
+const uiStore = useUiStore();
 
 const { success, loading, errorMessages, onSubmitForm } = useAuthForm<
   RegisterValues,
@@ -136,12 +146,12 @@ const { handleSubmit } = useForm<RegisterValues>({
   },
 });
 
-// const router = useRouter();
+const router = useRouter();
 // 4️⃣ Submission callback
 const onSubmit = handleSubmit(async (values: RegisterValues) => {
   try {
     await onSubmitForm(values);
-    // router.push("/login");
+    router.push("/login");
   } catch (err) {
     console.error(err);
   }

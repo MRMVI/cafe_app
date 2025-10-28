@@ -39,8 +39,13 @@
 <script setup>
 import CafeSteam from "@/components/CafeSteam.vue";
 import { useUIStore } from "@/stores/useUIStore";
+import { onMounted } from "vue";
 
 const uiStore = useUIStore();
+
+onMounted(() => {
+  uiStore.setShowCTA(true);
+});
 </script>
 
 <style lang="scss" scoped>

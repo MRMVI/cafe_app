@@ -64,13 +64,13 @@ class AuthController extends Controller
         ], 200)->cookie(
             'refresh_token',
             $refreshToken,
-            43200, // 30 days (cookie)
-            '/', // the path where the cookie is sent("/" -> every route)
-            null,
-            true,
-            true,
-            false,
-            // 'Strict'
+            43200, // 30 days
+            '/',   // path
+            null,  // domain
+            false, // ❗ MUST be false on localhost
+            true,  // httpOnly
+            false, // raw
+            'Lax'  // sameSite (use "None" only if HTTPS)
         );
     }
 

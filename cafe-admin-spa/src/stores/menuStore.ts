@@ -40,7 +40,7 @@ export const useMenuStore = defineStore("menu", {
     // fetch menu items from Laravel API
     async fetchMenu() {
       try {
-        const response = await api.get<GetMenuItemsResponse>("/admin/items");
+        const response = await api.get<GetMenuItemsResponse>("/menu");
         this.items = response.data.data;
       } catch (err: unknown) {
         throw err;

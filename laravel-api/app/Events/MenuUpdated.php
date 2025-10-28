@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 // MenuUpdated::dispatch("updated", $item) => Notify all clients in real-time
 class MenuUpdated implements ShouldBroadcastNow
@@ -37,7 +38,7 @@ class MenuUpdated implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('menu-channel');
+        return new Channel('menu');
     }
 
     // This gives the event a custom name when broadcasting
@@ -45,5 +46,37 @@ class MenuUpdated implements ShouldBroadcastNow
     public function broadcastAs()
     {
         return 'menu.updated';
+    }
+
+    public function broadcastWith()
+    {
+        if (!$this->item) {
+            return [
+                'action' => $this->action,
+                'item' => null,
+            ];
+        }
+
+        // if item is array (like delete), use it directly
+        if (is_array($this->item)) {
+            return [
+                'action' => $this->action,
+                'item' => $this->item,
+            ];
+        }
+
+        // if item is model (create/update), convert to array
+        return [
+            'action' => $this->action,
+            'item' => [
+                'id' => $this->item->id,
+                'name' => $this->item->name,
+                'price' => $this->item->price,
+                'photo_path' => $this->item->photo_path ?? null,
+                'is_available' => $this->item->is_available,
+                'description' => $this->item->description,
+                'category' => $this->item->category
+            ],
+        ];
     }
 }

@@ -34,18 +34,9 @@
         </li>
       </ul>
     </div>
-
-    <!-- Recent orders -->
-    <div class="card-container">
-      <h2 class="card-heading">Recent Orders</h2>
-      <ul>
-        <li>John Doe - $25 - new</li>
-        <li>Jane Smith - $40 - preparing</li>
-        <li>Mike Brown - $18 - done</li>
-      </ul>
-    </div>
   </section>
 </template>
+
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useUserStore } from "../stores/userStore";
@@ -82,7 +73,6 @@ onMounted(async () => {
   .heading {
     @include responsive-text();
     @include responsive-margin();
-
     text-align: center;
     color: $text-color;
   }

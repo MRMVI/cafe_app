@@ -3,9 +3,7 @@ import api from "./axios";
 // Reusable handle request
 async function handleRequest(method, url, data = null) {
   try {
-    const response = await api.request({ method, url, data });
-
-    return response;
+    return await api.request({ method, url, data });
   } catch (err) {
     throw err;
   }

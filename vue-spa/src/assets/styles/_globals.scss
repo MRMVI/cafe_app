@@ -15,6 +15,8 @@ html,
 body {
   height: 100%;
   margin: 0;
+  background-color: $color-background;
+
 }
 
 .page-container {
@@ -160,3 +162,152 @@ label {
   @include responsive-font(0.5rem, 1.5vw, 1rem);
   color: $color-highlight; // or $cream if you want high contrast
 }
+
+.menu {
+  background-color: $color-background;
+  padding: 1.5rem;
+  font-family: $font-body;
+  color: $color-primary;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include desktop {
+    padding: 2rem;
+  }
+
+  @include tablet {
+    padding: 1.5rem;
+  }
+
+  @include mobile {
+    padding: 1rem;
+  }
+
+  &__heading {
+    @include responsive-font(2rem, 3vw, 3rem);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: $font-heading;
+  }
+
+  &__category {
+    margin-bottom: 3rem;
+  }
+
+  &__category-title {
+    font-family: $font-heading;
+    text-transform: capitalize;
+    text-align: center;
+    color: $color-primary;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+  }
+}
+
+.menu__card {
+  width: 100%;
+  max-width: 250px;
+  background-color: $background;
+  border-radius: $border-radius-sm;
+  box-shadow: 0 0 8px $color-primary;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 12px $mocha;
+  }
+}
+
+.menu__photo {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: $border-radius-sm $border-radius-sm 0 0;
+}
+
+.menu__info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.menu__name {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.menu__description {
+  font-size: 0.85rem;
+  color: $color-primary;
+  margin-bottom: 0.5rem;
+}
+
+.menu__availability {
+  margin-bottom: 0.5rem;
+
+  &.available {
+    color: green;
+  }
+
+  &.unavailable {
+    color: red;
+  }
+}
+
+.menu__price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: $color-primary;
+  margin-bottom: 1rem;
+}
+
+.menu__quantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+
+  label {
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  input {
+    width: 60px;
+    text-align: center;
+    border-radius: $border-radius-sm;
+    border: 1px solid $color-primary;
+    padding: 0.3rem;
+  }
+}
+
+.menu__btn {
+  background-color: $color-primary;
+  color: $color-highlight;
+  border: none;
+  border-radius: $border-radius-sm;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover:enabled {
+    background-color: darken($color-primary, 10%);
+  }
+
+  &:disabled {
+    background-color: gray;
+    color: lighten($color-highlight, 30%);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+

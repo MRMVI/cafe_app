@@ -217,10 +217,20 @@ const handleCancel = () => {
   @include responsive-text();
 
   .menu_photo {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 300px;
+    max-height: 300px;
     border-radius: 8px;
     object-fit: cover;
+
+    @include tablet {
+      max-width: 200px;
+      max-height: 200px;
+    }
+    @include mobile {
+      max-width: 200px;
+      max-height: 200px;
+    }
+
     // border: 3px solid $border-color;
     // box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   }

@@ -3,6 +3,13 @@ import api from "../axios";
 import type { AxiosResponse } from "axios";
 // register, login, logout, password reset/change
 
+type RequestConfig = {
+  withCredentials?: boolean;
+  headers?: Record<string, string>;
+  params?: Record<string, any>;
+  [key: string]: any;
+};
+
 import type {
   RegisterValues,
   RegisterResponse,
@@ -15,10 +22,11 @@ import type {
 async function hanldeRequest<T>(
   method: "POST",
   url: string,
-  data?: any
+  data?: any,
+  config: RequestConfig = {}
 ): Promise<AxiosResponse<T>> {
   try {
-    const response = await api.request<T>({ method, url, data });
+    const response = await api.request<T>({ method, url, data, ...config });
 
     // axios response
     return response;
@@ -43,7 +51,9 @@ export function register(
 export async function login(
   payload: LoginValues
 ): Promise<AxiosResponse<LoginResponse>> {
-  return hanldeRequest<LoginResponse>("POST", "/login", payload);
+  return hanldeRequest<LoginResponse>("POST", "/login", payload, {
+    withCredentials: true,
+  });
 }
 
 export function logout(): Promise<AxiosResponse<LogoutResponse>> {
@@ -52,11 +62,15 @@ export function logout(): Promise<AxiosResponse<LogoutResponse>> {
 
 export function resetPassword() {}
 
-export async function refreshAccessToken() : Promise<void> {
-    const refreshToken = localStorage.getItem("refresh_token");
-    if (!refreshToken) throw new Error("No refresh token, please login again");
+export async function refreshAccessToken(): Promise<void> {
+  const refreshToken = localStorage.getItem("refresh_token");
+  if (!refreshToken) throw new Error("No refresh token, please login again");
 
-    const response = await hanldeRequest<{access_token: string}>("POST", "/refresh", {refresh_token: refreshToken});
+  const response = await hanldeRequest<{ access_token: string }>(
+    "POST",
+    "/refresh",
+    { refresh_token: refreshToken }
+  );
 
-    localStorage.setItem("access_token", response.data.access_token);
+  localStorage.setItem("access_token", response.data.access_token);
 }

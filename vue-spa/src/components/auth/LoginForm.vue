@@ -96,11 +96,10 @@ async function handleLogin(values) {
 
       localStorage.setItem("access_token", access_token);
 
-      // router.push("/menu");
+      router.push("/dashboard");
     }
   } catch (err) {
     console.error("Error: ", err);
-    return;
   }
 }
 </script>

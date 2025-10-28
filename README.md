@@ -51,5 +51,5 @@ Order flow: **new → preparing → done**.
 
 ---
 
-## Project Structure
+
 
